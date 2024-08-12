@@ -1,0 +1,67 @@
+System.CurrrentDirectory         ./    # default=./
+DATA.PATH                        /home/cha/program/openmx3.9/DFT_DATA19
+System.Name                      None
+level.of.stdout                  1
+level.of.fileout                 1
+scf.restart                      off
+HS.fileout                       on
+Species.Number                   3
+<Definition.of.Atomic.Species
+  Te   Te7.0-s3p3d2f1    Te_PBE19 
+  Nb   Nb7.0-s3p2d2f1    Nb_PBE19 
+  Se   Se7.0-s3p2d2f1    Se_PBE19 
+Definition.of.Atomic.Species>
+Atoms.Number                     3
+Atoms.SpeciesAndCoordinates.Unit FRAC
+<Atoms.SpeciesAndCoordinates
+  1 Nb  0.3333333333333357 0.6666666666666643 -2.24754451389e-05   6.752500 6.247500  off
+  2 Se  0.6666666666666643 0.3333333333333357 0.0861937500077428   3.000000 3.000000  off
+  3 Te  -0.0 0.0 0.8967458765774892   8.000000 8.000000  off
+Atoms.SpeciesAndCoordinates>
+Atoms.UnitVectors.Unit           Ang
+<Atoms.UnitVectors
+  1.793362 -3.106193 -0.000000
+  1.793362 3.106193 0.000000
+  -0.000000 -0.000000 18.501904
+Atoms.UnitVectors>
+scf.XcType                       GGA-PBE
+scf.ElectronicTemperature        300.0
+scf.maxIter                      500
+scf.EigenvalueSolver             band
+scf.energycutoff                 1000.0
+scf.criterion                    1e-07
+scf.Kgrid                        17 17 1
+scf.Generation.Kpoint            regular
+scf.SpinPolarization             on
+scf.SpinOrbit.Coupling           off
+scf.Constraint.NC.Spin           off
+scf.Constraint.NC.Spin.v         0.0
+scf.Hubbard.U                    off
+scf.DFTU.Type                    1
+scf.Hubbard.Occupation           dual
+<Hubbard.U.values
+  Nb 1s 0.0 2s 0.0 3s 0.0 1p 0.0 2p 0.0 1d 0.0 2d 0.0 1f 0.0
+  Se 1s 0.0 2s 0.0 3s 0.0 1p 0.0 2p 0.0 1d 0.0 2d 0.0 1f 0.0
+  Te 1s 0.0 2s 0.0 3s 0.0 1p 0.0 2p 0.0 3p 0.0 1d 0.0 2d 0.0 1f 0.0
+Hubbard.U.values>
+<Hund.J.values
+  Nb 1s 0.0 2s 0.0 3s 0.0 1p 0.0 2p 0.0 1d 0.0 2d 0.0 1f 0.0
+  Se 1s 0.0 2s 0.0 3s 0.0 1p 0.0 2p 0.0 1d 0.0 2d 0.0 1f 0.0
+  Te 1s 0.0 2s 0.0 3s 0.0 1p 0.0 2p 0.0 3p 0.0 1d 0.0 2d 0.0 1f 0.0
+Hund.J.values>
+Band.dispersion                 on
+Band.Nkpath                     3
+<Band.kpath
+  20  0.0 0.0 0.0 0.5 0.0 0.0 G M
+  20  0.5 0.0 0.0 0.3333 0.3333 0.0 M K
+  20  0.3333 0.3333 0.0 0.0 0.0 0.0 K G
+Band.kpath>
+Dos.fileout                     on
+Dos.Erange                      -20.0 20.0
+Dos.Kgrid                       17 17 1
+scf.Mixing.Type                 rmm-diis
+scf.Init.Mixing.Weight          0.1
+scf.Min.Mixing.Weight           0.001
+scf.Max.Mixing.Weight           0.5
+scf.Kerker.factor               1.0
+scf.Mixing.History              30

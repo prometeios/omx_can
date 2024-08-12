@@ -1,0 +1,134 @@
+System.CurrrentDirectory         ./    # default=./
+DATA.PATH                        /home/cha/program/openmx3.9/DFT_DATA19
+System.Name                      NbSeTe
+level.of.stdout                   1    # default=1 (1-3)
+level.of.fileout                  1    # default=1 (0-2)
+
+#
+#
+# Definition of Atomic Species
+#
+
+Species.Number       3
+<Definition.of.Atomic.Species
+ Nb   Nb7.0-s3p2d2f1    Nb_PBE19 
+ Se   Se7.0-s3p2d2f1    Se_PBE19 
+ Te   Te7.0-s3p3d2f1    Te_PBE19 
+Definition.of.Atomic.Species>
+#
+# Atoms
+#
+
+Atoms.Number         3
+Atoms.SpeciesAndCoordinates.Unit   FRAC # Ang|AU
+<Atoms.SpeciesAndCoordinates           
+   1   Nb    0.33333333333334    0.66666666666666    0.99997752455486     6.7525     6.2475     on
+   2   Se    0.66666666666666    0.33333333333334    0.08619375000774     3.0     3.0     on
+   3   Te   -0.00000000000000   -0.00000000000000    0.89674587657749     8.0     8.0     on
+Atoms.SpeciesAndCoordinates>
+
+Atoms.UnitVectors.Unit  Ang
+<Atoms.UnitVectors
+  1.793361583482071  -3.106193378933121  -0.000000000000000 
+  1.793361583482070   3.106193378933121   0.000000000000000 
+ -0.000000000000000  -0.000000000000000  18.501904488009380 
+Atoms.UnitVectors>
+
+#
+# SCF or Electronic System
+#
+
+scf.XcType                 GGA-PBE     # LDA|LSDA-CA|LSDA-PW|GGA-PBE
+scf.SpinPolarization        on        # On|Off|NC
+scf.SpinOrbit.Coupling      off        # On|Off, default=off
+scf.ElectronicTemperature  300.0       # default=300 (K)
+scf.energycutoff           1000.0       # default=150 (Ry)
+scf.maxIter                  500        # default=40
+scf.EigenvalueSolver       band        # DC|GDC|Cluster|Band
+scf.Kgrid                  17 17 1     # KPOINTS information
+scf.Generation.Kpoint       regular    # regular|MP
+scf.Mixing.Type           rmm-diis    # Simple|Rmm-Diis|Gr-Pulay|Kerker|Rmm-Diisk
+scf.Init.Mixing.Weight     0.10        # default=0.30 
+scf.Min.Mixing.Weight      0.001       # default=0.001 
+scf.Max.Mixing.Weight      0.500       # default=0.40 
+scf.Mixing.History          30          # default=5
+scf.Mixing.StartPulay       7          # default=6
+scf.Mixing.EveryPulay       1          # default=6
+scf.criterion             1.0e-7       # default=1.0e-6 (Hartree) 
+scf.lapack.dste            dstevx      # dstevx|dstedc|dstegr,default=dstevx
+
+
+scf.restart    on
+HS.fileout               on    # on|off, default=off
+
+scf.Constraint.NC.Spin       off      # on|on2|off, default=off
+#scf.Constraint.NC.Spin.v    0.5      # default=0.0(eV) # gives a magnitude which determines the strength of constraint when the constraint is introduced.
+scf.Hubbard.U       off     # On|Off, default=off
+scf.DFTU.Type       1      # 1:Simplified(Dudarev)|2:General, default=1
+scf.dc.Type        sFLL    # sFLL|sAMF|cFLL|cAMF, default=sFLL
+scf.Hubbard.Occupation   dual    # onsite|full|dual, default=dual
+scf.Slater.Ratio      0.625    # default=0.625
+scf.Yukawa         off     # default=off
+
+<Hubbard.U.values # eV
+Nb 1s 0.0  2s 0.0  3s 0.0  1p 0.0  2p 0.0  1d 0.0  2d 0.0  1f 0.0  
+Se 1s 0.0  2s 0.0  3s 0.0  1p 0.0  2p 0.0  1d 0.0  2d 0.0  1f 0.0  
+Te 1s 0.0  2s 0.0  3s 0.0  1p 0.0  2p 0.0  3p 0.0  1d 0.0  2d 0.0  1f 0.0  
+Hubbard.U.values>
+
+<Hund.J.values # eV
+Nb 1s 0.0  2s 0.0  3s 0.0  1p 0.0  2p 0.0  1d 0.0  2d 0.0  1f 0.0  
+Se 1s 0.0  2s 0.0  3s 0.0  1p 0.0  2p 0.0  1d 0.0  2d 0.0  1f 0.0  
+Te 1s 0.0  2s 0.0  3s 0.0  1p 0.0  2p 0.0  3p 0.0  1d 0.0  2d 0.0  1f 0.0  
+Hund.J.values>
+
+#
+# Band dispersion
+#
+
+Band.dispersion              on        # on|off, default=off
+
+# if <Band.KPath.UnitCell does not exist,
+#     the reciprical lattice vector is employed. 
+Band.Nkpath                3
+<Band.kpath                
+  20  0.0000 0.0000 0.0000    0.5000 0.0000 0.0000    G M
+  20  0.5000 0.0000 0.0000    0.3333 0.3333 0.0000    M K
+  20  0.3333 0.3333 0.0000    0.0000 0.0000 0.0000    K G
+Band.kpath>
+
+#
+# DOS and PDOS
+#
+Dos.fileout                  on       # on|off, default=off
+Dos.Erange              -20.0  20.0    # default = -20 20 
+Dos.Kgrid                17 17 1      # default = Kgrid1 Kgrid2 Kgrid3
+
+
+#
+# 1D FFT
+#
+
+1DFFT.NumGridK             900         # default=900
+1DFFT.NumGridR             900         # default=900
+1DFFT.EnergyCutoff        3600.0       # default=3600 (Ry)
+
+
+scf.fixed.grid     0.00000000000000    0.00000000000000    0.00000000000000
+
+
+MD.Current.Iter   1
+
+
+<Atoms.Unitvectors.Velocity
+  0.0000000000000000000000   0.0000000000000000000000   0.0000000000000000000000 
+  0.0000000000000000000000   0.0000000000000000000000   0.0000000000000000000000 
+  0.0000000000000000000000   0.0000000000000000000000   0.0000000000000000000000 
+Atoms.Unitvectors.Velocity>
+
+
+<NPT.WV.F0
+  0.0000000000000000000000   0.0000000000000000000000   0.0000000000000000000000 
+  0.0000000000000000000000   0.0000000000000000000000   0.0000000000000000000000 
+  0.0000000000000000000000   0.0000000000000000000000   0.0000000000000000000000 
+NPT.WV.F0>

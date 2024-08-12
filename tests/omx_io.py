@@ -38,13 +38,11 @@ class OmxInput:
         options.read_datfile(datfile)
         return options
     
-    def write_datfile(self, filepath = None):
-        if filepath is None:
-            filepath = self.datfile
+    def write_datfile(self, filepath = "./"):
         """ Write datfile"""
-        with open(filepath, 'w') as f:
+        with open(filepath + self.options.sysname + '.dat', 'w') as f:
             # Header
-            f.write(f'System.CurrrentDirectory         {self.options.workdir}    # default=./\n')
+            f.write(f'System.CurrrentDirectory         ./    # default=./\n')
             f.write(f'DATA.PATH                        {OPENMX_DATA_PATH}\n')
             f.write(f'System.Name                      {self.sysname}\n')
             f.write(f'level.of.stdout                  {str(self.options.level_of_stdout)}\n')
@@ -200,7 +198,6 @@ class OmxOptions:
         self.sysname: str = None
         self.level_of_stdout: int = 1
         self.level_of_fileout: int = 1
-        self.workdir: str = './'
 
         # Restart
         self.is_restart: bool = False
@@ -268,8 +265,6 @@ class OmxOptions:
                     continue
 
                 # read header
-                if 'System.CurrrentDirectory' in line:
-                    self.workdir = line.split()[1]
                 if 'System.Name' in line:
                     self.sysname = line.split()[1]
                 if 'level.of.stdout' in line:
@@ -409,11 +404,11 @@ class OmxOutput:
     def __init__(self, outfile):
         with open(outfile, 'r') as f:
             _content = f.read()
-        self.magmom = self.get_total_magmom(_content)
+        self.magmom = self.get_magmom(_content)
         self.energy = self.get_energy(_content)
         self.convergence = self.get_convergence(_content)
 
-    def get_total_magmom(self, _content):
+    def get_magmom(self, _content):
         """ Get magnetic moment"""
         lines = _content.split('\n')
         for line in lines:
