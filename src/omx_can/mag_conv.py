@@ -47,7 +47,7 @@ def alter_init_magmom(inputfile, numcores):
     input.options.workdir = workpath
 
     
-    # TODO: it assumes magnetic materials are placed first Change it to be more general
+    # TODO: it assumes magnetic materials are placed first. Change it to be more general
     
     # TODO: Guess the initial magnetic moment based on stoichiometry
     
@@ -89,9 +89,56 @@ def alter_mixing():
     # Change the mixing parameters and algorithms
     pass
 
-def alter_U():
+def alter_U(inputfile, numcores):
     # Start from the DFT+U calculation
-    pass
+    input = omx_io.OmxInput(inputfile)
+ 
+    # Set workdir to the input file directory
+    workpath = os.path.dirname(inputfile)
+    input.options.workdir = workpath
+    transition_metal = input.structure.positions[0][0]
+    # TODO: Currently it assumes the first atom is the transition metal. Change it to be more general
+
+    # Check the U value that makes magnetic local minima
+    MAX_U = 5
+    for U in range(MAX_U):
+        # Set the U value
+        input.options.is_restart = False
+        input.options.is_dft_u_correction = True
+        input.options.hubbard_u_value[transition_metal]['1d'] = U
+        input.write_datfile(inputfile)
+
+        # Run the calculation
+        os.system(f"mpirun -np {numcores} openmx {inputfile}")
+        # Check if magnetic local minima is found
+        if is_mag(f"{input.options.sysname}.out"):
+            print(f"System is magnetic at hubbard U value {U}")
+            break
+        # If found, break the loop
+    # If not found, finish the function
+    if U == MAX_U:
+        if not is_mag(f"{input.options.sysname}.out"):
+            print("No magnetic local minima is found.")
+            return
+    
+
+    # Diminish the U value until 0, escape when magnetic local miniam vanished
+    USTEP = 0.5
+    for U in range(U, -USTEP, -USTEP):
+        # Set the U value
+        input.options.is_restart = True
+        input.options.hubbard_u_value[transition_metal]['1d'] = U
+        input.write_datfile(inputfile)
+
+        # Run the calculation
+        os.system(f"mpirun -np {numcores} openmx {inputfile}")
+        # Check if magnetic local minima is found
+        if not is_mag(f"{input.options.sysname}.out"):
+            print(f"System is non-magnetic at hubbard U value {U}")
+            break
+        if U == 0:
+            print("magnetic local minima is found.")
+    return
 
 def alter_cons():
     # Start from the constrained calculation
